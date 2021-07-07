@@ -1,0 +1,25 @@
+{{- if .B2Page -}}
+    <h3 class="heading-link"><a href="/{{ .Slug }}/" class="heading-link-a">{{- .Slug -}}</a></h3>
+    <ul class="related-list" id="ulid_{{ .Slug }}">
+    {{- $limit := 10 -}}
+    {{- range $i, $val := .B2Page }}
+        {{- if lt $i $limit }}
+        <li class="related-list-item">
+            <a class="related-link" href="/{{ $val.Slug }}/">
+                <div class="content">
+                    <div class="item-title">{{ $val.Title }}</div>
+                    <div class="{{ if $val.Thumnail }}thumnail{{ else }}dscr{{ end }}">{{ $val.SummaryHTML }}</div>
+                </div>
+            </a>
+        </li>
+        {{- end }}
+    {{- end }}
+    {{- if gt .B2Pagelen $limit }}
+    <li class="related-list-item" data-class="more" data-slug="{{ .Slug }}" data-len="{{ .B2Pagelen }}" data-limit="{{- $limit -}}">
+            <div class="more"> 
+                MORE
+            </div>
+        </li>
+    {{- end }}
+    </ul>
+{{- end -}}

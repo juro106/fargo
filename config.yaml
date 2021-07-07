@@ -1,0 +1,21 @@
+baseurl: 'https://sa.sasasa.org/'
+title: 'sasasa'
+source: ''
+name: 'sasasa'
+dst: '_site/'
+posts: '_posts/'
+pages: '_pages/'
+tags: '_tags/'
+data: '_data/'
+assets: '_assets/'
+css: '_assets/css/'
+js: '_assets/js/'
+img: '_assets/img/'
+includes: ''
+layouts: '_layouts'
+permalink: ''
+exclude: ['']
+host: 'localhost'
+port: 9898
+markdown_ext: '.md'
+

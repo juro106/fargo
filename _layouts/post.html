@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {{- if .IsServer }}<script src="/js/livereload.js"></script>{{ end }}
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    {{- with .Description }}<meta name="description" content="{{ . }}">{{ end }}
+    <title>{{- .Title -}}</title>
+    <link rel="stylesheet" href="{{ .Css }}">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="{{ .Js }}" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">{{ .Title }}</h1>
+            {{- if .Tags }}
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime={{ .DatePublished }}>
+                        {{- .DateP -}}
+                    </time>
+                    {{- if .DateM }}
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime={{ .DateModified }}>
+                        {{- .DateM -}}
+                    </time>
+                    {{- end }}
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        {{- range $val := .Tags }}
+                        <li class="link-list-item">
+                            <a class="link" href="/{{ $val }}/">
+                                <span class="b-sharp">{{ $val }}</span>
+                            </a>
+                        </li>
+                        {{- end }}
+                    </ul>
+                </div>
+            </div>
+            {{- end }}
+        </header>
+        {{ .Body }}
+        {{- with .Tags }}
+        <div class="links">
+            <ul class="link-list">
+                {{- range $val := . }}
+                <li class="link-list-item">
+                    <a class="link" href="/{{ $val }}/">
+                        <span class="b-sharp">{{ $val }}</span>
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+        </div>
+        {{- end }}
+        {{- with .Link2P }}
+        <div class="links">
+            <div class="tolinks">このページにリンクしているページ</div>
+            <ul class="link-list">
+                {{- range $val := . -}}
+                    {{- $val -}}
+                {{- end }}
+            </ul>
+        </div>
+        {{- end }}
+    </article>
+    {{- with .PB2T }}
+    <div class="related-pages">
+        {{- range $val := . }}
+            {{- $val -}}
+        {{- end }}
+    {{- end }}
+    </div>
+    </main>
+    {{- template "footer" }}
+</body>
+</html>
