@@ -30,12 +30,12 @@
                 <div class="datetime-box">
                     <span>published:</span>
                     <time class="datetime-item" datetime={{ .DatePublished }}>
-                        {{- .DateP -}}
+                        {{- .DatePub -}}
                     </time>
-                    {{- if .DateM }}
+                    {{- if .DateMod }}
                     <span>modified:</span>
                     <time class="datetime-item" datetime={{ .DateModified }}>
-                        {{- .DateM -}}
+                        {{- .DateMod -}}
                     </time>
                     {{- end }}
                 </div>

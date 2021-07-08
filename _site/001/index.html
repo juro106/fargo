@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="ウェブサイトのタグやカテゴリーを表示させるあれこれに関して">
+    <title>タグを関連付けるアルゴリズム？</title>
+    <link rel="stylesheet" href="/css/style-c682468374b7ced423b58c2aea80dfde.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="/js/main-8fc6846237f1cbd9117915405932bbc8.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">タグを関連付けるアルゴリズム？</h1>
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime=2021-06-05T14:40:34&#43;09:00>2021-06-05</time>
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime=2021-07-08T15:59:23&#43;09:00>2021-07-08</time>
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        <li class="link-list-item">
+                            <a class="link" href="/%e6%8a%95%e7%a8%bf/">
+                                <span class="b-sharp">投稿</span>
+                            </a>
+                        </li>
+                        <li class="link-list-item">
+                            <a class="link" href="/%e3%83%86%e3%82%b9%e3%83%88/">
+                                <span class="b-sharp">テスト</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <ul>
+<li>記事が持っているタグのリスト</li>
+<li>タグが持っている記事のリスト</li>
+</ul>
+<p>とある記事のページのファイルがタグのデータを持っているならば、タグに紐づく記事一覧を表示できる。</p>
+<p>しかし、markdown作成時の段階でわかるのは、各ページが何のタグを持っているかということだけであり、各タグに紐づくのがどのページかまではわからない。</p>
+<p>たとえば、Radiohead のページにつけられたタグ（ないしはカテゴリー）が rock と uk だとして、他の rock に所属するページはどうやって表示させれば良いのだろうか？</p>
+<pre><code class="language-javascript">// それぞれのページが保有するタグ
+tag-belong-to-page = {
+  &quot;beatles&quot;: [&quot;rock&quot;, &quot;uk&quot;]
+  &quot;radiohead&quot;: [&quot;rock&quot;, &quot;uk&quot;, &quot;alternative&quot;]
+  &quot;nirvana&quot;: [&quot;rock&quot;, &quot;us&quot;, &quot;alternative&quot;]
+  &quot;velvet-underground&quot;: [&quot;rock&quot;, &quot;us&quot;, &quot;alternative&quot;]
+  &quot;sonic-youth&quot;: [&quot;rock&quot;, &quot;us&quot;, &quot;alternative&quot;]
+}
+// それぞれのタグが保有するページ
+page-belong-to-tag = {
+  &quot;rock&quot;: [&quot;beatles&quot;, &quot;radiohead&quot;, &quot;nirvana&quot;, &quot;velvet-underground&quot;, &quot;sonic-youth&quot;],
+  &quot;alternative&quot;: [&quot;radiohead&quot;, &quot;nirvana&quot;, &quot;velvet-underground&quot;, &quot;sonic-youth&quot;],
+  &quot;us&quot;: [&quot;nirvana&quot;, &quot;velvet-underground&quot;, &quot;sonic-youth&quot;],
+  &quot;uk&quot;: [&quot;beatles&quot;, &quot;radiohead&quot;],
+}
+</code></pre>
+<p>なんだかめんどくさそうだ。ループしまくる方法しか思いつかない。</p>
+<p>今のところ、build するときに全ページのタイトルや url、 ページの内容から何から何まで突っ込んだ json ファイルを用意して、そこから引っ張ってくることにしている。</p>
+<p>Radiohead が uk なのはわかっている。Radioheadのページファイルは自分が uk 所属であることを知っている。</p>
+<p>だから uk というキーワードを使って 全ページ分データから仲間を探しに行く。見つかったら表示させる。</p>
+<p>お察しの通り、1つのページに所属するタグが1つとは限らないし、1つのタグに所属するページも複数あったりする。</p>
+<p>しかも最初に使う「Radiohead は uk ですよ」という情報ですら、1回全ページデータへアクセスしなければ取得できない。</p>
+<p>これはループにループを重ねているので遅いと思う。わかっている。わかっているんだ。</p>
+<h2>事前にやるのか後でやるのか</h2>
+<p>go の自家製 cms で、build の際にタグページも全部作るやり方でやったら500ページで4秒かかってしまう。for が何回も出てくるとはいえ、やり方が悪いのだろう。</p>
+<p>一旦記事ページを総ざらししてそれぞれのタグを拾った後、今度はそれぞれのタグに当てはまる他の記事ページはどれかな？という工程が必要なのだから仕方ないのかもしれない。</p>
+<p>こういうときこそアルゴリズム？を工夫するとなんとかなりそう。</p>
+<p>しかし、特になんの工夫もせずほぼストレートにページを生成する（markdown→html）のであれば、0コンマ何秒...というか build したのか気づかないくらい速い。</p>
+<p>さらに、タグページは javascript で表示させてしまうほうが今のところは手軽に感じている。事前生成が良いのだろうけれど。うまい方法が思いつかない。</p>
+<h3>本当に必要なのか</h3>
+<p>これまでタグページというのはあまり注目してこなかった。他人のブログを見ていてもタグクラウドなどクリックする気が起きなかった。</p>
+<p>しかし、scrapbox を使うようになってからというもの、タグが気になって仕方がない。見せ方次第で、繋げ方次第でこんなに違うものかと驚愕している。</p>
+
+        <div class="links">
+            <ul class="link-list">
+                <li class="link-list-item">
+                    <a class="link" href="/%e6%8a%95%e7%a8%bf/">
+                        <span class="b-sharp">投稿</span>
+                    </a>
+                </li>
+                <li class="link-list-item">
+                    <a class="link" href="/%e3%83%86%e3%82%b9%e3%83%88/">
+                        <span class="b-sharp">テスト</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="links">
+            <div class="tolinks">このページにリンクしているページ</div>
+            <ul class="link-list"><li class="link-list-item"><a class="l-a"href="/origin/">実験用</a></li>
+            </ul>
+        </div>
+    </article>
+    <div class="related-pages"><h3 class="heading-link"><a href="/%e6%8a%95%e7%a8%bf/" class="heading-link-a">投稿</a></h3>
+    <ul class="related-list" id="ulid_投稿">
+        <li class="related-list-item">
+            <a class="related-link" href="/hello_world/">
+                <div class="content">
+                    <div class="item-title">Hello World</div>
+                    <div class="dscr">なんだかんだで Hello World してみないとわからない</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/003/">
+                <div class="content">
+                    <div class="item-title">3番目のページ</div>
+                    <div class="dscr">これは投稿ページ③です。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/good_bye/">
+                <div class="content">
+                    <div class="item-title">Good Bye</div>
+                    <div class="dscr">改行\nと空白 空白 &nbsp; 改行\r Dos\r\n</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/origin/">
+                <div class="content">
+                    <div class="item-title">実験用</div>
+                    <div class="dscr">※これは本物です。<br>コピーではありません。<br>markdown よりも yaml<br>当初の目的からズレ始めている。<br>javascript との戦いも始まってしまった。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/002/">
+                <div class="content">
+                    <div class="item-title">2番目のページ</div>
+                    <div class="dscr">これは2番目に作られたページです。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/001/">
+                <div class="content">
+                    <div class="item-title">タグを関連付けるアルゴリズム？</div>
+                    <div class="dscr">ウェブサイトのタグやカテゴリーを表示させるあれこれに関して</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+<h3 class="heading-link"><a href="/%e3%83%86%e3%82%b9%e3%83%88/" class="heading-link-a">テスト</a></h3>
+    <ul class="related-list" id="ulid_テスト">
+        <li class="related-list-item">
+            <a class="related-link" href="/so_many_people/">
+                <div class="content">
+                    <div class="item-title">Hi People</div>
+                    <div class="dscr">Hi</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/001/">
+                <div class="content">
+                    <div class="item-title">タグを関連付けるアルゴリズム？</div>
+                    <div class="dscr">ウェブサイトのタグやカテゴリーを表示させるあれこれに関して</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+    </div>
+    </main>
+        <footer id="footer">
+            <div id="footer-inner">
+                <span class="copy-right">©さ・さささ</span>
+            </div>
+        </footer>
+</body>
+</html>

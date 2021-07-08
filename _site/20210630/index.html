@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="とりあえず build の速度は改善された">
+    <title>build 速度改善</title>
+    <link rel="stylesheet" href="/css/style-c682468374b7ced423b58c2aea80dfde.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="/js/main-8fc6846237f1cbd9117915405932bbc8.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">build 速度改善</h1>
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime=2021-06-30T04:06:41&#43;09:00>2021-06-30</time>
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime=2021-06-30T04:23:59&#43;09:00>2021-06-30</time>
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        <li class="link-list-item">
+                            <a class="link" href="/cms/">
+                                <span class="b-sharp">cms</span>
+                            </a>
+                        </li>
+                        <li class="link-list-item">
+                            <a class="link" href="/%e9%9b%91%e8%a8%98/">
+                                <span class="b-sharp">雑記</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <p>取り敢えず build の速度は改善された。</p>
+<p>最初は並行処理的なものに手をつけた。これは確かに効果があった。それでも20秒が10秒になった程度であり、根本的な解決には至らず。</p>
+<p>結局時間がかかるのは量が多い普通のページ。</p>
+<p>タグに紐づくページ一覧を一度作ったら HTML に保存しておいて、それを今度は普通の記事ページにドカドカ貼り付ける形にしたら一気に速くなった。</p>
+<p>1000ページで10秒から20秒かかっていたものが、3秒前後に収まるようになった。まだ修正すべきところは多い。</p>
+<h3>残る問題</h3>
+<ul>
+<li>一覧のタイルに載せるサマリー的な部分の表示方法。 overflow: hidden だけだといまいち。</li>
+<li>markdown の parser に goldmark を使っているが、オプションをつけないと色々足りない。しかし足すと速度が目に見えて落ちる...</li>
+<li>golang の基本的なところが全然わからない。並行処理も適当なので基礎を学習する。</li>
+<li>関係ないが git の使い方がよくわからない。ちょくちょく push で怒られる。</li>
+</ul>
+
+        <div class="links">
+            <ul class="link-list">
+                <li class="link-list-item">
+                    <a class="link" href="/cms/">
+                        <span class="b-sharp">cms</span>
+                    </a>
+                </li>
+                <li class="link-list-item">
+                    <a class="link" href="/%e9%9b%91%e8%a8%98/">
+                        <span class="b-sharp">雑記</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <div class="related-pages"><h3 class="heading-link"><a href="/cms/" class="heading-link-a">cms</a></h3>
+    <ul class="related-list" id="ulid_cms">
+        <li class="related-list-item">
+            <a class="related-link" href="/border/">
+                <div class="content">
+                    <div class="item-title">border</div>
+                    <div class="dscr">border は便利だけどあまり使いすぎると調整がめんどくさい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/click-link/">
+                <div class="content">
+                    <div class="item-title">クリックとリンク</div>
+                    <div class="dscr">クリックできると思われたらクリック出来るようになっているのが望ましい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/local-server-preview/">
+                <div class="content">
+                    <div class="item-title">ローカルサーバー上のメモリ上にbuild</div>
+                    <div class="dscr">HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/005/">
+                <div class="content">
+                    <div class="item-title">add file</div>
+                    <div class="dscr"></div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/header-summary/">
+                <div class="content">
+                    <div class="item-title">一覧リスト冒頭問題</div>
+                    <div class="dscr">一覧リストの冒頭の表示問題。うまいやり方が思いつかない。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/build-server/">
+                <div class="content">
+                    <div class="item-title">本番用 と 開発用 でやることの違い</div>
+                    <div class="dscr">build と server でやることの違い</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/origin/">
+                <div class="content">
+                    <div class="item-title">実験用</div>
+                    <div class="dscr">※これは本物です。<br>コピーではありません。<br>markdown よりも yaml<br>当初の目的からズレ始めている。<br>javascript との戦いも始まってしまった。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/007/">
+                <div class="content">
+                    <div class="item-title">test7</div>
+                    <div class="dscr">seven seven seven seven</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/004/">
+                <div class="content">
+                    <div class="item-title">rebuild &amp; reload test</div>
+                    <div class="dscr">rebuild & reload test websocket</div>
+                </div>
+            </a>
+        </li>
+    <li class="related-list-item" data-class="more" data-slug="cms" data-len="19" data-limit="10">
+            <div class="more"> 
+                MORE
+            </div>
+        </li>
+    </ul>
+<h3 class="heading-link"><a href="/%e9%9b%91%e8%a8%98/" class="heading-link-a">雑記</a></h3>
+    <ul class="related-list" id="ulid_雑記">
+        <li class="related-list-item">
+            <a class="related-link" href="/animals/">
+                <div class="content">
+                    <div class="item-title">animals</div>
+                    <div class="thumnail"><img src="/img/animals_with_tree.png" alt="動物たちと大きな木" decoding="async"></div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/20210630/">
+                <div class="content">
+                    <div class="item-title">build 速度改善</div>
+                    <div class="dscr">とりあえず build の速度は改善された</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/20210703/">
+                <div class="content">
+                    <div class="item-title">じわじわ進行中</div>
+                    <div class="dscr">日付でファイルを作ると管理しやすいかもしれないがファイル名だけでは何が書いてあるのかわからないので辛い。</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+    </div>
+    </main>
+        <footer id="footer">
+            <div id="footer-inner">
+                <span class="copy-right">©さ・さささ</span>
+            </div>
+        </footer>
+</body>
+</html>

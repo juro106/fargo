@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="markdown から html への変換テスト">
+    <title>markdown→htmlのテスト</title>
+    <link rel="stylesheet" href="/css/style-c682468374b7ced423b58c2aea80dfde.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="/js/main-8fc6846237f1cbd9117915405932bbc8.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">markdown→htmlのテスト</h1>
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime=2021-06-30T15:42:56&#43;09:00>2021-06-30</time>
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime=2021-07-04T04:54:48&#43;09:00>2021-07-04</time>
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        <li class="link-list-item">
+                            <a class="link" href="/cms/">
+                                <span class="b-sharp">cms</span>
+                            </a>
+                        </li>
+                        <li class="link-list-item">
+                            <a class="link" href="/markdown/">
+                                <span class="b-sharp">markdown</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <p>コード</p>
+<pre><code>$ echo "hello"</code></pre>
+<pre><code class="language-javascript">'use strict';
+const main = () =&gt; {
+
+  const list = ['hoge', 'fuga', 'piyo'];
+  const hoge = list.forEach(v =&gt; {
+    if (v == 'hoge') {
+      return v;
+    }
+  });
+
+  const greet = (arg) =&gt; {
+    const greet = `Hello!! ${arg}`;
+    return greet;
+  }
+  
+  greet(hoge);
+} 
+
+document.addEventListener('DOMContentLoaded', main);
+</code></pre>
+<pre><code>  words := &quot;abcdefghijklmnopqrstuvwxyz&quot;
+  var number = 1234567890
+</code></pre>
+<h2>リスト 見出し2</h2>
+<ol>
+<li>番号リスト</li>
+<li>番号リスト</li>
+<li>番号リスト</li>
+</ol>
+<ul>
+<li>直接 HTML をかけるようにしておきたい
+<ul>
+<li>テーブルはどっちでも良いがあればあったで良い
+<ul>
+<li>リストは綺麗にインデントされてほしい</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>太字</h3>
+<ul>
+<li><em>hello</em> ← 斜体</li>
+<li><strong>hello</strong> ← 太字</li>
+<li><em>hello</em> ← 斜体</li>
+<li><strong>hello</strong> ← 太字</li>
+</ul>
+<h3>テーブル</h3>
+<p>左寄せ</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">country</th>
+<th style="text-align:left">language</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">日本 Japana</td>
+<td style="text-align:left">日本語 Japanese</td>
+</tr>
+<tr>
+<td style="text-align:left">アメリカ US</td>
+<td style="text-align:left">English</td>
+</tr>
+<tr>
+<td style="text-align:left">イギリス UK</td>
+<td style="text-align:left">English</td>
+</tr>
+<tr>
+<td style="text-align:left">中国 China</td>
+<td style="text-align:left">中国語 Chinese</td>
+</tr>
+<tr>
+<td style="text-align:left">スペイン ES</td>
+<td style="text-align:left">スペイン語 español</td>
+</tr>
+</tbody>
+</table>
+<p>右寄せ</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">country</th>
+<th style="text-align:right">language</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">日本 Japana</td>
+<td style="text-align:right">日本語 Japanese</td>
+</tr>
+<tr>
+<td style="text-align:right">アメリカ US</td>
+<td style="text-align:right">English</td>
+</tr>
+<tr>
+<td style="text-align:right">イギリス UK</td>
+<td style="text-align:right">English</td>
+</tr>
+<tr>
+<td style="text-align:right">中国 China</td>
+<td style="text-align:right">中国語 Chinese</td>
+</tr>
+<tr>
+<td style="text-align:right">スペイン ES</td>
+<td style="text-align:right">スペイン語 español</td>
+</tr>
+</tbody>
+</table>
+<p>中央寄せ</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">country</th>
+<th style="text-align:center">language</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">日本 Japana</td>
+<td style="text-align:center">日本語 Japanese</td>
+</tr>
+<tr>
+<td style="text-align:center">アメリカ US</td>
+<td style="text-align:center">English</td>
+</tr>
+<tr>
+<td style="text-align:center">イギリス UK</td>
+<td style="text-align:center">English</td>
+</tr>
+<tr>
+<td style="text-align:center">中国 China</td>
+<td style="text-align:center">中国語 Chinese</td>
+</tr>
+<tr>
+<td style="text-align:center">スペイン ES</td>
+<td style="text-align:center">スペイン語 español</td>
+</tr>
+</tbody>
+</table>
+<h3>引用</h3>
+<blockquote>
+<p>引用
+これは
+引用です。</p>
+</blockquote>
+<h4>直接 HTML</h4>
+<h5>div</h5>
+<div class="hey">
+  areareare
+</div>
+<p>code?
+hello?</p>
+<h5>引用</h5>
+<blockquote class="hoge">
+これも引用
+</blockquote>
+
+        <div class="links">
+            <ul class="link-list">
+                <li class="link-list-item">
+                    <a class="link" href="/cms/">
+                        <span class="b-sharp">cms</span>
+                    </a>
+                </li>
+                <li class="link-list-item">
+                    <a class="link" href="/markdown/">
+                        <span class="b-sharp">markdown</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <div class="related-pages"><h3 class="heading-link"><a href="/cms/" class="heading-link-a">cms</a></h3>
+    <ul class="related-list" id="ulid_cms">
+        <li class="related-list-item">
+            <a class="related-link" href="/border/">
+                <div class="content">
+                    <div class="item-title">border</div>
+                    <div class="dscr">border は便利だけどあまり使いすぎると調整がめんどくさい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/click-link/">
+                <div class="content">
+                    <div class="item-title">クリックとリンク</div>
+                    <div class="dscr">クリックできると思われたらクリック出来るようになっているのが望ましい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/local-server-preview/">
+                <div class="content">
+                    <div class="item-title">ローカルサーバー上のメモリ上にbuild</div>
+                    <div class="dscr">HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/005/">
+                <div class="content">
+                    <div class="item-title">add file</div>
+                    <div class="dscr"></div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/header-summary/">
+                <div class="content">
+                    <div class="item-title">一覧リスト冒頭問題</div>
+                    <div class="dscr">一覧リストの冒頭の表示問題。うまいやり方が思いつかない。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/build-server/">
+                <div class="content">
+                    <div class="item-title">本番用 と 開発用 でやることの違い</div>
+                    <div class="dscr">build と server でやることの違い</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/origin/">
+                <div class="content">
+                    <div class="item-title">実験用</div>
+                    <div class="dscr">※これは本物です。<br>コピーではありません。<br>markdown よりも yaml<br>当初の目的からズレ始めている。<br>javascript との戦いも始まってしまった。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/007/">
+                <div class="content">
+                    <div class="item-title">test7</div>
+                    <div class="dscr">seven seven seven seven</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/004/">
+                <div class="content">
+                    <div class="item-title">rebuild &amp; reload test</div>
+                    <div class="dscr">rebuild & reload test websocket</div>
+                </div>
+            </a>
+        </li>
+    <li class="related-list-item" data-class="more" data-slug="cms" data-len="19" data-limit="10">
+            <div class="more"> 
+                MORE
+            </div>
+        </li>
+    </ul>
+<h3 class="heading-link"><a href="/markdown/" class="heading-link-a">markdown</a></h3>
+    <ul class="related-list" id="ulid_markdown">
+        <li class="related-list-item">
+            <a class="related-link" href="/markdown_html_test/">
+                <div class="content">
+                    <div class="item-title">markdown→htmlのテスト</div>
+                    <div class="dscr">コードチェック <pre><code>$ echo "hello"</code></pre> あいうえおかきくけこさしすせそたちつてと abcdefghijklmnopqrstuvwxyz</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+    </div>
+    </main>
+        <footer id="footer">
+            <div id="footer-inner">
+                <span class="copy-right">©さ・さささ</span>
+            </div>
+        </footer>
+</body>
+</html>

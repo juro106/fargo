@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="rebuild &amp; reload test websocket">
+    <title>rebuild &amp; reload test</title>
+    <link rel="stylesheet" href="/css/style-c682468374b7ced423b58c2aea80dfde.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="/js/main-8fc6846237f1cbd9117915405932bbc8.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">rebuild &amp; reload test</h1>
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime=2021-07-08T17:25:24&#43;09:00>2021-07-08</time>
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime=2021-07-08T23:56:28&#43;09:00>2021-07-08</time>
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        <li class="link-list-item">
+                            <a class="link" href="/cms/">
+                                <span class="b-sharp">cms</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <ul>
+<li>do it!!</li>
+<li>do it!!</li>
+<li>do it!!</li>
+<li>do it!!</li>
+</ul>
+<p>ソースファイルに変更があったときに、自動的に build して reload できる仕組みが完成した。</p>
+<p>これで良いのかどうかよくわからないがとりあえず動いている。</p>
+<p>共通化出来るところはしたい</p>
+<h3>server の流れ</h3>
+<ul>
+<li>コンフィグファイルを読み込む</li>
+<li>コンテンツディレクトリからデータを収集</li>
+<li>HTML用のマップを作成 {key: slug, value: HTML}</li>
+<li>server を立ち上げてコンテンツをリクエストに応じて表示</li>
+</ul>
+<h3>build の流れ</h3>
+<ul>
+<li>コンフィグファイルを読み込む</li>
+<li>コンテンツディレクトリからデータを収集</li>
+<li>デプロイ先へファイルを書き込み ＆ コピー(css, jsなど)</li>
+</ul>
+
+        <div class="links">
+            <ul class="link-list">
+                <li class="link-list-item">
+                    <a class="link" href="/cms/">
+                        <span class="b-sharp">cms</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <div class="related-pages"><h3 class="heading-link"><a href="/cms/" class="heading-link-a">cms</a></h3>
+    <ul class="related-list" id="ulid_cms">
+        <li class="related-list-item">
+            <a class="related-link" href="/border/">
+                <div class="content">
+                    <div class="item-title">border</div>
+                    <div class="dscr">border は便利だけどあまり使いすぎると調整がめんどくさい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/click-link/">
+                <div class="content">
+                    <div class="item-title">クリックとリンク</div>
+                    <div class="dscr">クリックできると思われたらクリック出来るようになっているのが望ましい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/local-server-preview/">
+                <div class="content">
+                    <div class="item-title">ローカルサーバー上のメモリ上にbuild</div>
+                    <div class="dscr">HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/005/">
+                <div class="content">
+                    <div class="item-title">add file</div>
+                    <div class="dscr"></div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/header-summary/">
+                <div class="content">
+                    <div class="item-title">一覧リスト冒頭問題</div>
+                    <div class="dscr">一覧リストの冒頭の表示問題。うまいやり方が思いつかない。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/build-server/">
+                <div class="content">
+                    <div class="item-title">本番用 と 開発用 でやることの違い</div>
+                    <div class="dscr">build と server でやることの違い</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/origin/">
+                <div class="content">
+                    <div class="item-title">実験用</div>
+                    <div class="dscr">※これは本物です。<br>コピーではありません。<br>markdown よりも yaml<br>当初の目的からズレ始めている。<br>javascript との戦いも始まってしまった。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/007/">
+                <div class="content">
+                    <div class="item-title">test7</div>
+                    <div class="dscr">seven seven seven seven</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/004/">
+                <div class="content">
+                    <div class="item-title">rebuild &amp; reload test</div>
+                    <div class="dscr">rebuild & reload test websocket</div>
+                </div>
+            </a>
+        </li>
+    <li class="related-list-item" data-class="more" data-slug="cms" data-len="19" data-limit="10">
+            <div class="more"> 
+                MORE
+            </div>
+        </li>
+    </ul>
+
+    </div>
+    </main>
+        <footer id="footer">
+            <div id="footer-inner">
+                <span class="copy-right">©さ・さささ</span>
+            </div>
+        </footer>
+</body>
+</html>

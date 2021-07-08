@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう">
+    <title>ローカルサーバー上のメモリ上にbuild</title>
+    <link rel="stylesheet" href="/css/style-c682468374b7ced423b58c2aea80dfde.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
+    <script src="/js/main-8fc6846237f1cbd9117915405932bbc8.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <a class='block-link' href="/">
+            <div id="header-inner">
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+                <div class="sa-icon"></div>
+            </div>
+        </a>
+    </header>
+    <main id="main">
+    <article id="article">
+        <header id="article-header">
+            <h1 id="page-title">ローカルサーバー上のメモリ上にbuild</h1>
+            <div class="headmeta">
+                <div class="datetime-box">
+                    <span>published:</span>
+                    <time class="datetime-item" datetime=2021-07-05T03:48:37&#43;09:00>2021-07-05</time>
+                    <span>modified:</span>
+                    <time class="datetime-item" datetime=2021-07-05T04:02:51&#43;09:00>2021-07-05</time>
+                </div>
+                <div class="links">
+                    <ul class="link-list">
+                        <li class="link-list-item">
+                            <a class="link" href="/cms/">
+                                <span class="b-sharp">cms</span>
+                            </a>
+                        </li>
+                        <li class="link-list-item">
+                            <a class="link" href="/go/">
+                                <span class="b-sharp">go</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <p>live reload が出来ない問題。</p>
+<p>websocket やら何やら色々調べて試したが、どうやらあって欲しい状態に持っていくのは無理そうだ。</p>
+<p>nodejs や vscode の エクステンションである live server などを使えば、静的サイトの下書きを live reload しながら作成できる。それはわかった。</p>
+<p>しかし、自前の cms にその機能を持たせようとするとうまくいかない。</p>
+<p>現状、結局は本番用に build したものを ローカルサーバーで見ているのである。だから下書き状態でも問答無用で build される。それは上手くない。</p>
+<p>livereload するためにはどうしても html に それ用の javascript を埋め込む必要があるらしい。かといって開発中のローカル環境でしか使われない javascript を 本番用の html に埋め込むわけにはいかない。</p>
+<p>ローカル用のディレクトリと本番用のディレクトリを分けてもいいけれど容量2倍はなんだかバカバカしい。分けずにやって本番前にその都度消したりするのもアホらしい。</p>
+<p>個人のブログでは実用上さほど問題になるわけでないのだけれど、それでも実現できるのであればやってみたい。</p>
+<p>どうやら HUGO はメモリ上にページを作成して表示させているらしい。だから live reload が出来たりものすごいスピードで server が立ち上がるのだと思う。なんか不思議な感じがするなと思っていたが、今回そういうことだとわかって納得した。</p>
+<p>遠回りしたが、目指すべきはそういうところなのだとようやく理解した。</p>
+<p>色々調べている中で、go の net/http の使い方もわかってきたので良しとする。</p>
+
+        <div class="links">
+            <ul class="link-list">
+                <li class="link-list-item">
+                    <a class="link" href="/cms/">
+                        <span class="b-sharp">cms</span>
+                    </a>
+                </li>
+                <li class="link-list-item">
+                    <a class="link" href="/go/">
+                        <span class="b-sharp">go</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <div class="related-pages"><h3 class="heading-link"><a href="/cms/" class="heading-link-a">cms</a></h3>
+    <ul class="related-list" id="ulid_cms">
+        <li class="related-list-item">
+            <a class="related-link" href="/border/">
+                <div class="content">
+                    <div class="item-title">border</div>
+                    <div class="dscr">border は便利だけどあまり使いすぎると調整がめんどくさい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/click-link/">
+                <div class="content">
+                    <div class="item-title">クリックとリンク</div>
+                    <div class="dscr">クリックできると思われたらクリック出来るようになっているのが望ましい。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/local-server-preview/">
+                <div class="content">
+                    <div class="item-title">ローカルサーバー上のメモリ上にbuild</div>
+                    <div class="dscr">HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/005/">
+                <div class="content">
+                    <div class="item-title">add file</div>
+                    <div class="dscr"></div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/header-summary/">
+                <div class="content">
+                    <div class="item-title">一覧リスト冒頭問題</div>
+                    <div class="dscr">一覧リストの冒頭の表示問題。うまいやり方が思いつかない。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/build-server/">
+                <div class="content">
+                    <div class="item-title">本番用 と 開発用 でやることの違い</div>
+                    <div class="dscr">build と server でやることの違い</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/origin/">
+                <div class="content">
+                    <div class="item-title">実験用</div>
+                    <div class="dscr">※これは本物です。<br>コピーではありません。<br>markdown よりも yaml<br>当初の目的からズレ始めている。<br>javascript との戦いも始まってしまった。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/007/">
+                <div class="content">
+                    <div class="item-title">test7</div>
+                    <div class="dscr">seven seven seven seven</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/004/">
+                <div class="content">
+                    <div class="item-title">rebuild &amp; reload test</div>
+                    <div class="dscr">rebuild & reload test websocket</div>
+                </div>
+            </a>
+        </li>
+    <li class="related-list-item" data-class="more" data-slug="cms" data-len="19" data-limit="10">
+            <div class="more"> 
+                MORE
+            </div>
+        </li>
+    </ul>
+<h3 class="heading-link"><a href="/go/" class="heading-link-a">go</a></h3>
+    <ul class="related-list" id="ulid_go">
+        <li class="related-list-item">
+            <a class="related-link" href="/delete-duplicate/">
+                <div class="content">
+                    <div class="item-title">slice 重複削除 Golang</div>
+                    <div class="dscr">Golang で2つ以上のリストの重複を調べるときなど</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/local-server-preview/">
+                <div class="content">
+                    <div class="item-title">ローカルサーバー上のメモリ上にbuild</div>
+                    <div class="dscr">HUGO のようにローカルサーバー上に build すれば livereload をいい感じに出来るのだろう</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/cms-diary/">
+                <div class="content">
+                    <div class="item-title">cms 作成記録</div>
+                    <div class="dscr">cms を作成する上で気づいたこと、プログラミングのメモ。</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/build-server/">
+                <div class="content">
+                    <div class="item-title">本番用 と 開発用 でやることの違い</div>
+                    <div class="dscr">build と server でやることの違い</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/websocket-livereload/">
+                <div class="content">
+                    <div class="item-title">WebSocket と Live Reload</div>
+                    <div class="dscr">Live Reload を実現するためには？</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/draft_test/">
+                <div class="content">
+                    <div class="item-title">draft test</div>
+                    <div class="dscr">draft test</div>
+                </div>
+            </a>
+        </li>
+        <li class="related-list-item">
+            <a class="related-link" href="/008/">
+                <div class="content">
+                    <div class="item-title">008</div>
+                    <div class="dscr">fsnotify を使ってファイルの変更を検知する<br>fsnotify を使ってファイルの変更を検知する</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+    </div>
+    </main>
+        <footer id="footer">
+            <div id="footer-inner">
+                <span class="copy-right">©さ・さささ</span>
+            </div>
+        </footer>
+</body>
+</html>
