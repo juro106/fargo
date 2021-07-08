@@ -24,7 +24,7 @@ import (
 	// "net/http"
 	// "net/url"
 	// "os/exec"
-	// "runtime"
+
 	// "bufio"
 	_ "io/ioutil"
 	_ "reflect"
@@ -32,6 +32,7 @@ import (
 	// "github.com/flosch/pongo2"
 
 	// "github.com/russross/blackfriday/v2"
+	"github.com/fsnotify/fsnotify"
 	"github.com/yuin/goldmark"
 	_ "github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -312,6 +313,7 @@ func (cfg *Config) collectData(dirName string) {
 			meta.Css = css
 			meta.Now = now
 
+			fi
 			// ファイルの中身を読み取る
 			srcFile := filepath.Join(dirName, fpath)
 
@@ -777,7 +779,40 @@ func Watch(args []string, flg chan bool, callback func()) {
 	}
 }
 
+var watching = false
+
+var ws2 *websocket.Conn
+
+func rebuild(done chan bool) {
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		log.Println("clear Maps")
+		clearMap()
+		wg.Done()
+	}()
+	wg.Wait()
+	time.Sleep(100 * time.Millisecond)
+	wg.Add(1)
+	go func() {
+		log.Println("start re build")
+		build(true)
+		wg.Done()
+	}()
+	wg.Wait()
+	watching = false
+	reloade(ws2)
+	// <-done
+}
+func reloade(ws *websocket.Conn) {
+	err := ws.WriteMessage(1, []byte("1"))
+	if err != nil {
+		log.Println("WebSocket Error: ", err)
+	}
+}
+
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
+	log.Println("watching?", watching)
 	// upgrade this connection to a WebSocket
 	fmt.Println("Try Connect Websocket")
 	// ws type is *websocket.Conn
@@ -785,52 +820,53 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	ws2 = ws
+	done := make(chan bool)
 
-	log.Println("Client Connected")
-	err = ws.WriteMessage(1, []byte("Hi Client!"))
-	if err != nil {
-		log.Println(err)
+	if !watching {
+
+		Notify(done, ws)
 	}
-
-	q := make(chan bool, 1)
-	dirs := []string{"./_posts", "./_pages", "./_tags", "./_assets/css", "./_assets/js"}
-	// dirs := []string{"./_posts"}
-	// dirs := []string{"./"}
-	go func() {
-	loop:
-		for {
-			select {
-			case <-q:
-				// Wait しないと上手くリロードできない
-				wg := &sync.WaitGroup{}
-				wg.Add(1)
-				go func() {
-					log.Println("clear Maps")
-					clearMap()
-					wg.Done()
-				}()
-				wg.Wait()
-				time.Sleep(100 * time.Millisecond)
-				wg.Add(1)
-				go func() {
-					log.Println("start re build")
-					build(true)
-					wg.Done()
-				}()
-				wg.Wait()
-				time.Sleep(100 * time.Millisecond)
-				err = ws.WriteMessage(1, []byte("1"))
-				if err != nil {
-					log.Println("WebSocket Error: ", err)
-				}
-				break loop
-				// case <-time.After(10 * time.Millisecond):
-				// 	break loop
-			}
-		}
-	}()
-
-	Watch(dirs, q, func() {})
+	// q := make(chan bool, 1)
+	// dirs := []string{"./_posts", "./_pages", "./_tags", "./_assets/css", "./_assets/js"}
+	// // dirs := []string{"./_posts"}
+	// // dirs := []string{"./"}
+	//
+	// go func() {
+	// loop:
+	// 	for {
+	// 		select {
+	// 		case <-q:
+	// 			// Wait しないと上手くリロードできない
+	// 			wg := &sync.WaitGroup{}
+	// 			wg.Add(1)
+	// 			go func() {
+	// 				log.Println("clear Maps")
+	// 				clearMap()
+	// 				wg.Done()
+	// 			}()
+	// 			wg.Wait()
+	// 			time.Sleep(100 * time.Millisecond)
+	// 			wg.Add(1)
+	// 			go func() {
+	// 				log.Println("start re build")
+	// 				build(true)
+	// 				wg.Done()
+	// 			}()
+	// 			wg.Wait()
+	// 			time.Sleep(100 * time.Millisecond)
+	// 			err = ws.WriteMessage(1, []byte("1"))
+	// 			if err != nil {
+	// 				log.Println("WebSocket Error: ", err)
+	// 			}
+	// 			break loop
+	// 			// case <-time.After(10 * time.Millisecond):
+	// 			// 	break loop
+	// 		}
+	// 	}
+	// }()
+	//
+	// Watch(dirs, q, func() {})
 	// wg := &sync.WaitGroup{}
 	// wg.Add(1)
 	// go func() {
@@ -838,6 +874,55 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	//     wg.Done()
 	// }()
 	// wg.Wait()
+}
+func Notify(done chan bool, ws *websocket.Conn) {
+	fmt.Println("Notify Start")
+	watching = true
+	counter := 0
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+	go func(done chan bool) {
+		log.Println("fsnotify loop start")
+		for {
+			select {
+			case event := <-watcher.Events:
+				// log.Println("event: ", event)
+				switch {
+				case event.Op&fsnotify.Write == fsnotify.Write:
+					log.Println("Modified file: ", event.Name)
+				case event.Op&fsnotify.Create == fsnotify.Create:
+					log.Println("Created file: ", event.Name)
+				case event.Op&fsnotify.Rename == fsnotify.Rename:
+					log.Println("Renamed file: ", event.Name)
+				case event.Op&fsnotify.Chmod == fsnotify.Chmod:
+					log.Println("File changed permission: ", event.Name)
+				case event.Op&fsnotify.Remove == fsnotify.Remove:
+					log.Println("Removed file: ", event.Name)
+					if strings.Contains(event.Name, "~") {
+						counter++
+					}
+				}
+			case err := <-watcher.Errors:
+				log.Println("fsnotify error: ", err)
+				done <- true
+			}
+			if counter == 1 {
+				time.Sleep(300 * time.Millisecond)
+				fmt.Println("catch channel")
+				watching = false
+				rebuild(done)
+				return
+			}
+		}
+	}(done)
+	err = watcher.Add("./_posts")
+	if err != nil {
+		log.Fatal(err)
+	}
+	<-done
 }
 
 func myHandler(w http.ResponseWriter, r *http.Request) {
